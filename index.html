@@ -169,6 +169,8 @@
   .rev-link{text-align:center;margin-top:2rem}
   .rev-link a{color:var(--amber);font-weight:600;border-bottom:1px solid rgba(232,163,28,.4);padding-bottom:2px}
   @media(max-width:900px){.car-prev{left:6px}.car-next{right:6px}}
+  @media(max-width:680px){.car-btn{display:none}.track-vp{touch-action:pan-y}.swipe-hint{display:block}}
+  .swipe-hint{display:none;text-align:center;color:rgba(251,244,233,.55);font-size:.8rem;margin-top:.9rem}
 
   .gallery{padding-bottom:4.6rem}
   .gal-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:165px;gap:.9rem}
@@ -347,6 +349,7 @@
       <button class="car-btn car-prev" id="prev" aria-label="Previous">&#8249;</button>
       <button class="car-btn car-next" id="next" aria-label="Next">&#8250;</button>
     </div>
+    <div class="swipe-hint" data-es="Desliza para ver m&aacute;s &#8594;">Swipe to see more &#8594;</div>
     <div class="rev-link"><a href="https://www.google.com/search?q=Lorena%27s+Mexican+Grill+Reviews" target="_blank" rel="noopener" data-es="Ver las 245 rese&ntilde;as en Google &#8594;">See all 245 reviews on Google &#8594;</a></div>
   </div>
 </section>
@@ -462,6 +465,9 @@
     function start(){t=setInterval(nx,5000);} function rs(){clearInterval(t);start();}
     document.getElementById('next').addEventListener('click',function(){nx();rs();});
     document.getElementById('prev').addEventListener('click',function(){pv();rs();});
+    var vp=track.parentNode, sx=null;
+    vp.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+    vp.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40){if(dx<0){nx();}else{pv();}rs();}sx=null;},{passive:true});
     if(n)start();
   })();
 </script>
